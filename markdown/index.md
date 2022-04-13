@@ -1,4 +1,3 @@
-# Shareable Wearables
 <hr />
 This website is entirely open source and can be found [here](https://github.com/chirprush/shareable-wearables).
 
