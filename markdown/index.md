@@ -300,3 +300,13 @@ We don't really think that we'll continue developing this project much after the
 We certainly had some problems along the way, and we also could have used a little more time to refine our thoughts and designs, but all in all, this was a really great learning experience. I would recommend anyone interested to definitely try Project Ignite out. The teammates and the advisors you get to meet are great and there is a wide selection of interests for almost everyone. There's even free food sometimes! I would, without a doubt, say that this is one of the more enjoyable extracurricular workshops I've participated in, and I'm truly glad I decided to sign up for it.
 
 With that, I have to sign off. I hope you enjoyed this recap of our learning process, and I hope you'll enjoy the other projects as well. Bye!
+
+## References
+- [Arduino UNO](http://store-usa.arduino.cc/products/arduino-uno-rev3)
+- [Arduino Sensors](https://store-usa.arduino.cc/collections/sensors-environment)
+- [Arduino Light Sensor](https://arduinogetstarted.com/tutorials/arduino-light-sensor)
+- [Arduino Sound Sensor](https://create.arduino.cc/projecthub/electropeak/how-to-use-ky-037-sound-detection-sensor-with-arduino-a757a7)
+- [Arduino Buzzer](https://create.arduino.cc/projecthub/SURYATEJA/use-a-buzzer-module-piezo-speaker-using-arduino-uno-89df45)
+- [Maya](https://www.autodesk.com/products/maya/overview)
+- [Maya Tutorials](https://www.youtube.com/channel/UCHmAXsicpLK2EHMZo5_BtDA)
+- [Electrochromic Glass](https://en.wikipedia.org/wiki/Electrochromism)
