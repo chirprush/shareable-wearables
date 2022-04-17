@@ -242,7 +242,7 @@ public:
   Reading read() {
     return (Reading) {
       this->light_sensor.read(),
-        this->sound_sensor.read(),
+	  this->sound_sensor.read(),
     };
   }
 
@@ -282,7 +282,7 @@ void loop() {
   } else if (status == ReadingStatus::Sound) {
     state.buzz(2, 65);
   }
-  // state.log_buzzer();
+  state.log_buzzer();
   state.wait(50);
 }
 ```

@@ -312,7 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-147" title="147">  Reading read() {</a>
 <a class="sourceLine" id="cb2-148" title="148">    <span class="cf">return</span> (Reading) {</a>
 <a class="sourceLine" id="cb2-149" title="149">      <span class="kw">this</span>-&gt;light_sensor.read(),</a>
-<a class="sourceLine" id="cb2-150" title="150">        <span class="kw">this</span>-&gt;sound_sensor.read(),</a>
+<a class="sourceLine" id="cb2-150" title="150">      <span class="kw">this</span>-&gt;sound_sensor.read(),</a>
 <a class="sourceLine" id="cb2-151" title="151">    };</a>
 <a class="sourceLine" id="cb2-152" title="152">  }</a>
 <a class="sourceLine" id="cb2-153" title="153"></a>
@@ -352,7 +352,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb2-187" title="187">  } <span class="cf">else</span> <span class="cf">if</span> (status == ReadingStatus::Sound) {</a>
 <a class="sourceLine" id="cb2-188" title="188">    state.buzz(<span class="dv">2</span>, <span class="dv">65</span>);</a>
 <a class="sourceLine" id="cb2-189" title="189">  }</a>
-<a class="sourceLine" id="cb2-190" title="190">  <span class="co">// state.log_buzzer();</span></a>
+<a class="sourceLine" id="cb2-190" title="190">  state.log_buzzer();</a>
 <a class="sourceLine" id="cb2-191" title="191">  state.wait(<span class="dv">50</span>);</a>
 <a class="sourceLine" id="cb2-192" title="192">}</a></code></pre></div>
 <p>That brings us to where we are right now. After the 10th workshop session, everyone is working on our presentation material, including me at the moment writing this website. We’ll only really have less than two weeks before the final presentation to assemble everything and iron out any potential bugs.</p>
