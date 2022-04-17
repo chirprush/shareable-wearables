@@ -96,120 +96,194 @@ The second to last step after modeling was the coding of the interaction between
 // We want to have both a light sensor and sound sensor to read values
 // and, when any one of the values are above a certain threshold, we
 // will turn on a buzzer sensor. We may also want an off button.
+
 class LightSensor {
 public:
-	LightSensor(int _pin) : pin(_pin) {
-		pinMode(_pin, INPUT);
-	}
+  LightSensor(int _pin) : pin(_pin) {
+    pinMode(_pin, INPUT);
+  }
 
-	int read() {
-		return analogRead(this->pin);
-	}
+  int read() {
+    return analogRead(this->pin);
+  }
 
 private:
-	int pin;
+  int pin;
 };
 
 class SoundSensor {
 public:
-	SoundSensor(int _pin) : pin(_pin) {
-		pinMode(_pin, INPUT);
-	}
+  SoundSensor(int _pin) : pin(_pin) {
+    pinMode(_pin, INPUT);
+  }
 
-	int read() {
-		return analogRead(this->pin);
-	}
+  int read() {
+    return analogRead(this->pin);
+  }
 
 private:
-	int pin;
+  int pin;
 };
 
 class Buzzer {
 public:
-	static constexpr int runtime = 500;
+  static constexpr int runtime = 400;
+  static constexpr int between_delay = 250;
 
-	Buzzer(int _pin) : pin(_pin), time(0) {
-		pinMode(_pin, OUTPUT);
-	}
+  Buzzer(int _pin) : pin(_pin), time(0), beeps(0), frequency(0) {
+    pinMode(_pin, OUTPUT);
+  }
 
-	void update(int delay) {
-		this->time -= delay;
-		if (this->time <= 0) {
-			this->time = 0;
-			this->off();
-		}
-	}
+  void log() {
+    Serial.print("(pin, state, time, beeps)");
+    Serial.print(this->pin);
+    Serial.print(", ");
+    Serial.print((int)this->state);
+    Serial.print(", ");
+    Serial.print(this->time);
+    Serial.print(", ");
+    Serial.println(this->beeps);
+  }
 
-	void on() {
-		digitalWrite(this->pin, HIGH);
-		this->time = runtime;
-	}
+  void update(int t) {
+    if (this->state == State::Waiting) {
+      this->time = 0;
+      this->off();
+      this->beeps = 0;
+      return;
+    } else if (this->state == State::Between) {
+      noTone(this->pin);
+      this->time -= t;
+      if (this->time <= 0) {
+        tone(this->pin, this->frequency);
+        this->time = runtime;
+        this->state = State::Buzzing;
+      }
+      return;
+    }
+    this->time -= t;
+    if (this->time <= 0) {
+      this->beeps--;
+      this->time = 0;
+      this->off();
+      if (this->beeps <= 0) {
+        this->beeps = 0;
+        this->state = State::Waiting;
+      } else {
+        this->time = between_delay;
+        this->state = State::Between;
+      }
+    }
+  }
 
-	void off() {
-		digitalWrite(this->pin, LOW);
-	}
+  void on(int _beeps, int _frequency) {
+    tone(this->pin, _frequency);
+    this->beeps = _beeps;
+    this->frequency = _frequency;
+    this->state = State::Buzzing;
+    this->time = runtime;
+  }
+
+  void off() {
+    noTone(this->pin);
+  }
+
+  enum class State {
+    Waiting,
+    Between,
+    Buzzing,
+  };
 
 private:
-	int pin;
-	int time;
+  int pin;
+  State state { State::Waiting };
+  int time;
+  int beeps;
+  int frequency;
+};
+
+enum class ReadingStatus {
+  None,
+  Light,
+  Sound
 };
 
 struct Reading {
-	static constexpr int LIGHT_THRESHOLD = 800;
-	static constexpr int VOLUME_THRESHOLD = 200;
+  static constexpr int LIGHT_THRESHOLD = 740;
+  static constexpr int VOLUME_THRESHOLD = 940;
 
-	Reading(int _li, int _v) : light_intensity(_li), volume(_v) {}
+  Reading(int _li, int _v) : light_intensity(_li), volume(_v) {}
 
-	bool is_unsuitable() {
-		return
-			this->light_intensity >= LIGHT_THRESHOLD ||
-			this->volume >= VOLUME_THRESHOLD;
-	}
 
-	int light_intensity;
-	int volume;
+  void log() {
+    Serial.print("(light, sound): ");
+    Serial.print(this->light_intensity);
+    Serial.print(", ");
+    Serial.println(this->volume);
+  }
+
+  ReadingStatus status() {
+    if (this->light_intensity >= LIGHT_THRESHOLD) {
+      return ReadingStatus::Light;
+    } else if (this->volume >= VOLUME_THRESHOLD) {
+      return ReadingStatus::Sound;
+    }
+    return ReadingStatus::None;
+  }
+
+  int light_intensity;
+  int volume;
 };
 
 class State {
 public:
-	State() {}
+  State() {}
 
-	Reading read() {
-		return (Reading) {
-			this->light_sensor.read(),
-			this->sound_sensor.read(),
-		};
-	}
+  Reading read() {
+    return (Reading) {
+      this->light_sensor.read(),
+        this->sound_sensor.read(),
+    };
+  }
 
-	void buzz() {
-		this->buzzer.on();
-	}
+  void log_buzzer() {
+    this->buzzer.log();
+  }
 
-	void delay(int ms) {
-		delay(ms);
-		// The buzzer update must be after we wait the actual amount
-		// of time.
-		buzzer.update(ms);
-	}
+  void buzz(int beeps, int frequency) {
+    this->buzzer.on(beeps, frequency);
+  }
+
+  void wait(int ms) {
+    delay(ms);
+    // The buzzer update must be after we wait the actual amount
+    // of time.
+    this->buzzer.update(ms);
+  }
 
 private:
-	LightSensor light_sensor { A0 };
-	SoundSensor sound_sensor { A1 };
-	Buzzer buzzer { A2 };
+  LightSensor light_sensor { A0 };
+  SoundSensor sound_sensor { A1 };
+  Buzzer buzzer { A2 };
 };
 
 State state;
 
 void setup() {
-	Serial.begin(9600);
+  Serial.begin(9600);
 }
 
 void loop() {
-	auto reading = state.read();
-	if (reading.is_unsuitable()) {
-		state.buzz();
-	}
-	state.delay(50);
+  auto reading = state.read();
+  reading.log();
+  auto status = reading.status();
+  if (status == ReadingStatus::Light) {
+    state.buzz(2, 500);
+  } else if (status == ReadingStatus::Sound) {
+    state.buzz(2, 65);
+  }
+  // state.log_buzzer();
+  state.wait(50);
 }
 ```
 
