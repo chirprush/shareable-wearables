@@ -1,7 +1,6 @@
 :root {
 	/* --bg: #282c34; */
 	--bg: #282a2c;
-	--source: #181a1c;
 	--link: #61afef;
 	--header: #e7e7ea;
 	--text: #d7d7da;
@@ -30,8 +29,8 @@ body {
 }
 
 img {
-	max-width: 50em;
-	max-height: 30vh;
+	width: 100%;
+	max-width: 40em;
 }
 
 h1 {
@@ -72,10 +71,13 @@ ul, li {
 div.sourceCode {
 	font-size: 14px;
 	max-width: 50em;
+	border-radius: 10px;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	padding-left: 10px;
-	background: var(--source);
+	max-height: 40em;
+    display: block;
+    overflow: auto;
 }
 
 hr {
