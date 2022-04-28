@@ -289,6 +289,19 @@ void loop() {
 
 That brings us to where we are right now. After the 10th workshop session, everyone is working on our presentation material, including me at the moment writing this website. We'll only really have less than two weeks before the final presentation to assemble everything and iron out any potential bugs.
 
+## The Final Presentation!
+Around a week after this article was originally published, we finally got to partake in the final showcase on the Carnegie Mellon Campus. While our entire team wasn't able to make it in-person that day, I still had a lot of fun and thoroughly enjoyed meeting and talking to a wide variety of new people. It was interesting to see people ranging from my age to college students all interacting, and browsing through and looking at each groups' work was really captivating. With that said, here are some pictures of the event:
+
+![Our final glasses product](media/showcase_glasses.jpg)
+
+For our finished product, we managed to get our printed model and glued it together, attaching the sound sensor and buzzer on the side, with the light sensor on the front. In the end, the wiring tubes that we modeled were still a bit to small for the cables, which is the reason for the small bit of wiring mess. We had the glasses plugged in with the Arduino on the side, which was powered by my computer, running the code. If we were to make this an actual product, we would have to upload the code into the Arduino itself, put it in a more user-friendly container, and finally attach an external battery, similar to the one that might power your phone.
+
+
+![Explaining our project to my parents](media/showcase_explain.jpg)
+
+Similar to a science fair, the showcase was a walkaround event where people from all over could view everyone's projects. In addition, all of the teams had to come up with a poster showing their work. Despite being slightly tiring, getting to explain our work and our reasoning to people who were genuinely curious was a pretty satisfying experience.
+
+
 ## Future Work/More Time
 We don't really think that we'll continue developing this project much after the final presentation, but these are a few points in case any of us decide to return to it or if you, the reader, would like to try building something like this as well.
 
